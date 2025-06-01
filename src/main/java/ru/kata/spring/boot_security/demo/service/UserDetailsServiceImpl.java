@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+    @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Пользователь не найден: " + email);
         }
         user.getRoles().size();
-        return user; // User implements UserDetails
+        return user;
     }
 
     @Override

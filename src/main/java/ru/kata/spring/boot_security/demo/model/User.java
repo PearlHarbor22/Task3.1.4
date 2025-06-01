@@ -38,7 +38,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    // --- Геттеры и сеттеры ---
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -90,7 +89,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    // equals, hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

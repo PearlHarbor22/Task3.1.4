@@ -41,7 +41,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name;
+        return "ROLE_" + name;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name;
+        return name.replace("ROLE_", "");
     }
 
 }
