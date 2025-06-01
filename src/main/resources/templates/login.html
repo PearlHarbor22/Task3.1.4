@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Страница входа</title>
+</head>
+<body>
+<h2>Вход в систему</h2>
+<form th:action="@{/login}" method="post">
+  <div>
+    <label>Email:</label>
+    <input type="email" name="email" placeholder="Email" required />
+  </div>
+  <div>
+    <label>Password:</label>
+    <input type="password" name="password" required />
+  </div>
+  <div>
+    <button type="submit">Войти</button>
+  </div>
+</form>
+</body>
+</html>
