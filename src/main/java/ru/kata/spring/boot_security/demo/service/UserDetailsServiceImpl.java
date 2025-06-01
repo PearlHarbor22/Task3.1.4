@@ -35,6 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Пользователь не найден: " + email);
         }
+        user.getRoles().size();
         return user; // User implements UserDetails
     }
 
