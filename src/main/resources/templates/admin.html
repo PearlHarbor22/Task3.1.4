@@ -26,16 +26,21 @@
     <td th:text="${user.email}"></td>
     <td th:text="${user.roles}"></td>
     <td>
-      <a th:href="@{/admin/edit/{id}(id=${user.id})}">Редактировать</a> |
-      <a th:href="@{/admin/delete/{id}(id=${user.id})}">Удалить</a>
+      <form th:action="@{/admin/edit/{id}(id=${user.id})}" method="post" style="display:inline;">
+        <button type="submit">Редактирование</button>
+      </form>
+      <form th:action="@{/admin/delete/{id}(id=${user.id})}" method="post" style="display:inline;">
+        <button type="submit">Удалить</button>
+      </form>
     </td>
   </tr>
   </tbody>
 </table>
 
 <br/>
-<a href="/admin/new">Добавить нового пользователя</a>
-
+<form th:action="@{/admin/new}" method="post" style="display:inline;">
+  <button type="submit">Добавить нового пользователя</button>
+</form>
 <!-- Кнопка выхода внизу -->
 <div style="margin-top: 40px;">
   <form th:action="@{/logout}" method="post">

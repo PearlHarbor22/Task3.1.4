@@ -30,13 +30,17 @@ public class AdminInit implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        if (userRepository.findByEmail("admin@mail.ru") == null) {
             Role adminRole = roleRepository.findByName("ADMIN");
             if (adminRole == null) {
                 adminRole = new Role("ADMIN");
                 roleRepository.save(adminRole);
             }
-
+            Role userRole = roleRepository.findByName("USER");
+            if (userRole == null) {
+                userRole = new Role("USER");
+                roleRepository.save(userRole);
+            }
+        if (userRepository.findByEmail("admin@mail.ru") == null) {
             User admin = new User();
             admin.setName("Admin");
             admin.setEmail("admin@mail.ru");

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Страница пользователя</title>
+    <title>Страница пирожочка</title>
 </head>
 <body>
 
-<h1>Пользователь, добро пожаловать на страницу Spring Boot Security!</h1>
+<h1>Приветствую, дружок-пирожок!</h1>
 
 <div>
     <p><strong>Имя пользователя:</strong> <span th:text="${user.username}"></span></p>
-    <p><strong>Фамилия:</strong> <span th:text="${user.lastName}"></span></p>
+    <p><strong>Имя:</strong> <span th:text="${user.name}"></span></p>
     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-    <p><strong>Возраст:</strong> <span th:text="${user.age} ?: '–'"></span></p>
 
     <p><strong>Роли:</strong></p>
     <ul>
@@ -22,7 +20,7 @@
     </ul>
 </div>
 
-<!-- Только кнопка выхода внизу -->
+
 <div style="margin-top: 40px;">
     <form th:action="@{/logout}" method="post">
         <button type="submit">Выйти</button>
