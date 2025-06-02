@@ -25,7 +25,14 @@ public class AdminController {
     @GetMapping
     public String adminPage(Model model) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("newUser", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "admin";
+    }
+    @PostMapping("/admin")
+    public String createUser(@ModelAttribute("newUser") User user) {
+        userService.saveUser(user);
+        return "redirect:/admin";
     }
 
     @PostMapping("/new")
@@ -38,7 +45,7 @@ public class AdminController {
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute("user") User user,
+    public String createUser(@ModelAttribute("newUser") User user,
                              @RequestParam(value = "roles", required = false) List<Long> roleIds) {
         if (roleIds != null) {
             List<Role> roles = roleService.getRolesByIds(roleIds);

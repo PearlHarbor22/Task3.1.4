@@ -32,16 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/login", "/auth/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .usernameParameter("email")  // Совпадает с формой
+                .usernameParameter("email")
                 .passwordParameter("password")
                 .successHandler(successUserHandler)
+                .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
                 .logout()

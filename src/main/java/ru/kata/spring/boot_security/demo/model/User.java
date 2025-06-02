@@ -59,7 +59,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) { this.roles = roles; }
 
-    // --- Методы UserDetails ---
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -67,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email; // Или name — зависит от того, что ты используешь как логин
+        return email;
     }
 
     @Override
