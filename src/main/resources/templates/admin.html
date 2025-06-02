@@ -14,7 +14,9 @@
       <span th:text="${#authentication.name}">admin@mail.ru</span> with roles:
       <span th:text="${#authentication.authorities}">[ADMIN, USER]</span>
     </span>
-    <a class="btn btn-outline-light" href="/logout">Logout</a>
+    <form th:action="@{/logout}" method="post" class="mb-0">
+      <button type="submit" class="btn btn-outline-light">Logout</button>
+    </form>
   </div>
 </nav>
 
@@ -41,7 +43,7 @@
             <a class="nav-link active" data-bs-toggle="tab" href="#usersTable">Users table</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#newUser">New User</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#user">New User</a>
           </li>
         </ul>
 
@@ -144,9 +146,9 @@
           </div>
 
           <!-- New User Form -->
-          <div class="tab-pane fade p-3" id="newUser">
+          <div class="tab-pane fade p-3" id="user">
             <h5>Add new user</h5>
-            <form th:action="@{/admin}" th:object="${newUser}" method="post">
+            <form th:action="@{/admin}" th:object="${user}" method="post">
               <div class="form-group mb-3">
                 <label>Name</label>
                 <input type="text" class="form-control" th:field="*{name}" />
