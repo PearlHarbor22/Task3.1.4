@@ -55,7 +55,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Получаем существующего пользователя из БД
+        User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if (existingUser == null) {
+            throw new RuntimeException("Пользователь не найден");
+        }
+
+        // Если пароль не указан или пустой - оставляем старый
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            user.setPassword(existingUser.getPassword()); // Используем старый хеш
+        } else {
+            // Если пароль указан - кодируем новый
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         userRepository.save(user);
     }
 

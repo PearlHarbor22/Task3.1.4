@@ -25,52 +25,28 @@ public class AdminController {
     @GetMapping
     public String adminPage(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new User()); // Только для формы создания
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "admin";
     }
-    @PostMapping("/admin")
-    public String createUser(@ModelAttribute("newUser") User user) {
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }
 
-    @PostMapping("/new")
-    public String newUserForm(Model model) {
-        List<Role> allRoles = roleService.getAllRoles();
-        System.out.println("Роли в системе: " + allRoles);
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "new";
-    }
-
+    // Создание нового пользователя
     @PostMapping
-    public String createUser(@ModelAttribute("newUser") User user,
-                             @RequestParam(value = "roles", required = false) List<Long> roleIds) {
-        if (roleIds != null) {
-            List<Role> roles = roleService.getRolesByIds(roleIds);
-            user.setRoles(new HashSet<>(roles));
-        } else {
-            user.setRoles(new HashSet<>()); // если роли не выбраны
-        }
+    public String createUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
     }
-    @PostMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "edit";
-    }
 
+    // Обновление пользователя
     @PostMapping("/edit")
     public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
+        userService.updateUser(user); // Убедитесь, что этот метод существует
         return "redirect:/admin";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    // Удаление пользователя
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
