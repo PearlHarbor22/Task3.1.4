@@ -106,7 +106,7 @@
                         </div>
                         <div class="mb-3">
                           <label>Roles</label>
-                          <select class="form-select" th:field="*{user.roles}" multiple>
+                          <select class="form-select" name="roles" multiple>
                             <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.name}"  th:selected="${user.roles.contains(role)}"></option>
                           </select>
                         </div>
