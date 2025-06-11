@@ -14,7 +14,7 @@ public interface UserDetailsService extends org.springframework.security.core.us
     User getUser(Long id);
     User findByEmail(String email);
     List<Role> getAllRoles();
-
+    User getCurrentUser();
     // --- REST ---
     User createUser(DTOUser dto);
     User updateUser(DTOUser dto);
