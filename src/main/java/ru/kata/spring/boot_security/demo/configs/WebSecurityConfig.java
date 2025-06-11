@@ -32,6 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()  // Для API отключение CSRF может быть целесообразным. Для форм можно включить.
+                .cors()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/login", "/auth/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
