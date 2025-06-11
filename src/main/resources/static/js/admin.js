@@ -31,6 +31,21 @@ document.addEventListener('DOMContentLoaded', function () {
             userInfoElement.textContent = 'Error loading user';
         });
 
+    // Функция для безопасного закрытия модального окна
+    function closeModal(modalId) {
+        const modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            } else {
+                // Если экземпляр не найден, создаем новый и закрываем
+                const newModalInstance = new bootstrap.Modal(modalElement);
+                newModalInstance.hide();
+            }
+        }
+    }
+
     // Функция для загрузки и отображения списка пользователей
     function fetchUsers() {
         fetch('/admin/users')
@@ -154,20 +169,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Удаление пользователя
     function deleteUser(userId) {
-            fetch(`/admin/users/${userId}`, {
-                method: 'DELETE'
+        fetch(`/admin/users/${userId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                fetchUsers(); // Обновляем список пользователей
             })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => { throw new Error(text) });
-                    }
-                    fetchUsers(); // Обновляем список пользователей
-                })
-                .catch(error => {
-                    console.error('Ошибка удаления пользователя:', error);
-                    alert('Ошибка при удалении пользователя: ' + error.message);
-                });
-
+            .catch(error => {
+                console.error('Ошибка удаления пользователя:', error);
+                alert('Ошибка при удалении пользователя: ' + error.message);
+            });
     }
 
     // Обработчик сохранения изменений пользователя
@@ -186,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Валидация данных
         if (!dto.name || !dto.email) {
-            alert('Заполните обязательные поля: Имя, Фамилия, Email');
+            alert('Заполните обязательные поля: Имя и Email');
             return;
         }
 
@@ -204,9 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(() => {
-                // Закрываем модальное окно без jQuery
-                const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-                modal.hide();
+                // Безопасное закрытие модального окна
+                closeModal('editModal');
                 fetchUsers(); // Обновляем список пользователей
             })
             .catch(error => {
@@ -229,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Валидация данных
         if (!dto.name || !dto.email || !dto.password) {
-            alert('Заполните все обязательные поля: Имя, Фамилия, Email, Пароль');
+            alert('Заполните все обязательные поля: Имя, Email и Пароль');
             return;
         }
 
@@ -249,9 +262,8 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(() => {
                 this.reset(); // Очищаем форму
                 fetchUsers(); // Обновляем список пользователей
-                // закрытие модальное окно без jQuery
-                const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
-                modal.hide();
+                // Безопасное закрытие модального окна
+                closeModal('addUserModal');
             })
             .catch(error => {
                 console.error('Ошибка:', error);
