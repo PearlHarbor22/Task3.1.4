@@ -4,29 +4,35 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.dto.DTOUser;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository,
                                   RoleRepository roleRepository,
-                                  PasswordEncoder passwordEncoder) {
+                                  PasswordEncoder passwordEncoder,
+                                  RoleService roleService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
     @Override
     @Transactional
@@ -37,6 +43,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         user.getRoles().size();
         return user;
+    }
+
+    @Override
+    public User createUser(DTOUser dto) {
+        Set<Role> roles = new HashSet<>(roleService.getRolesByIds(dto.getRolesSelected()));
+        User user = new User();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     @Override
@@ -54,22 +71,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        // Получаем существующего пользователя из БД
-        User existingUser = userRepository.findById(user.getId()).orElse(null);
-        if (existingUser == null) {
-            throw new RuntimeException("Пользователь не найден");
+    public User updateUser(DTOUser dto) {
+        User existingUser = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        existingUser.setName(dto.getName());
+        existingUser.setEmail(dto.getEmail());
+
+        if (dto.getPassword() != null && !dto.getPassword().trim().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
-        // Если пароль не указан или пустой - оставляем старый
-        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            user.setPassword(existingUser.getPassword()); // Используем старый хеш
-        } else {
-            // Если пароль указан - кодируем новый
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
 
-        userRepository.save(user);
+        Set<Role> roles = new HashSet<>(roleService.getRolesByIds(dto.getRolesSelected()));
+        existingUser.setRoles(roles);
+
+        return userRepository.save(existingUser);
     }
 
     @Override
@@ -92,4 +109,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return user;
     }
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
 }

@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
-    @GetMapping("/")
-    public String homePage() {
-        return "index";
-    }
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
         if (error != null) {
