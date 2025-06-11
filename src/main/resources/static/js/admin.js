@@ -154,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Удаление пользователя
     function deleteUser(userId) {
-        if (confirm('Вы уверены, что хотите удалить этого пользователя?')) {
             fetch(`/admin/users/${userId}`, {
                 method: 'DELETE'
             })
@@ -163,13 +162,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         return response.text().then(text => { throw new Error(text) });
                     }
                     fetchUsers(); // Обновляем список пользователей
-                    alert('Пользователь успешно удалён');
                 })
                 .catch(error => {
                     console.error('Ошибка удаления пользователя:', error);
                     alert('Ошибка при удалении пользователя: ' + error.message);
                 });
-        }
+
     }
 
     // Обработчик сохранения изменений пользователя
@@ -206,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(() => {
-                alert('Пользователь успешно обновлён');
                 // Закрываем модальное окно без jQuery
                 const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
                 modal.hide();
@@ -250,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(() => {
-                alert('Пользователь успешно создан');
                 this.reset(); // Очищаем форму
                 fetchUsers(); // Обновляем список пользователей
                 // закрытие модальное окно без jQuery
