@@ -29,16 +29,14 @@
 </nav>
 
 <div class="d-flex">
-  <!-- Боковая панель -->
   <div id="sidebar" class="d-flex flex-column p-3 bg-light" style="width: 250px; height: 100vh;">
-    <!-- Меню будет динамически обновляться через JS -->
+
   </div>
 
-  <!-- Основной контент -->
+
   <main class="container-fluid mt-4 w-100">
     <h1>Admin Panel</h1>
 
-    <!-- Вкладки -->
     <ul class="nav nav-tabs mt-4" id="adminTabs" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="userTable-tab" data-bs-toggle="tab" data-bs-target="#userTable" type="button" role="tab" aria-controls="userTable" aria-selected="true">User Table</button>
@@ -48,7 +46,6 @@
       </li>
     </ul>
 
-    <!-- Табы -->
     <div class="tab-content mt-4" id="adminTabsContent">
 
       <!-- Таблица пользователей -->
@@ -78,7 +75,7 @@
           <form id="addUserForm" class="w-50">
             <div class="mb-3">
               <label class="text-center w-100 fw-bold">Name</label>
-              <input type="text" class="form-control w-100" name="firstName" required/>
+              <input type="text" class="form-control w-100" name="name" required/>
             </div>
             <div class="mb-3">
               <label class="text-center w-100 fw-bold">Email</label>
@@ -91,7 +88,6 @@
             <div class="mb-3">
               <label class="text-center w-100 fw-bold">Roles</label>
               <select name="rolesSelected" multiple class="form-select w-100" style="height: 60px;" required>
-                <!-- Роли подгружаются через JS -->
               </select>
             </div>
             <button type="submit" class="btn btn-success w-100 py-3">Add new user</button>
@@ -116,7 +112,7 @@
           <input type="hidden" name="userId"/>
           <div class="mb-3">
             <label class="form-label">Name</label>
-            <input type="text" class="form-control" name="firstName" required/>
+            <input type="text" class="form-control" name="name" required/>
           </div>
           <div class="mb-3">
             <label class="form-label">Email</label>

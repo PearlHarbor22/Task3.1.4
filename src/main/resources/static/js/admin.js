@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(user => {
             userInfoElement.innerHTML = `${user.email} with roles: ${user.roles.map(role => role.name).join(', ')}`;
 
-            // Генерация бокового меню
             sidebar.innerHTML = `
                 <div class="d-flex flex-column p-3 bg-light" style="width: 250px; height: 100vh;">
                     <ul class="nav nav-pills flex-column mb-auto">

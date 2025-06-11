@@ -63,7 +63,6 @@ public class AdminController {
             return ResponseEntity.badRequest().build();
         }
         try {
-            // Проверяем, существует ли пользователь с таким ID
             User updatedUser = userService.updateUser(dto);  // Обновляем пользователя
             return ResponseEntity.ok(updatedUser); // Возвращаем обновленного пользователя
         } catch (IllegalArgumentException e) {
@@ -85,5 +84,10 @@ public class AdminController {
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok(userService.getAllRoles());
+    }
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 }
