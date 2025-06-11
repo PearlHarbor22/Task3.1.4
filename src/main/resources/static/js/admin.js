@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <a href="/admin" class="nav-link ${window.location.pathname.startsWith('/admin') ? 'active' : ''}">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/user/index.html" class="nav-link ${window.location.pathname.startsWith('/user') ? 'active' : ''}">User</a>
+                            <a href="/js/index.html" class="nav-link ${window.location.pathname.startsWith('/user') ? 'active' : ''}">User</a>
                         </li>
                     </ul>
                 </div>

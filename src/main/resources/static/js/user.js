@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Вкладка User всегда отображается
             sidebarContent += `
                     <li class="nav-item">
-                        <a href="/user/index.html" class="nav-link ${window.location.pathname.startsWith('/user') ? 'active' : ''}">User</a>
+                        <a href="/js/index.html" class="nav-link ${window.location.pathname.startsWith('/user') ? 'active' : ''}">User</a>
                     </li>`;
 
             sidebarContent += `</ul></div>`;
